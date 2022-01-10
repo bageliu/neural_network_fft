@@ -160,15 +160,9 @@ class GoogleNet(nn.Module):
             nn.ReLU(inplace=True)
         )
 
-        # although we only use 1 conv layer as prelayer,
-        # we still use name a3, b3.......
         self.a3 = Inception(192, 64, 96, 128, 16, 32, 32)
         self.b3 = Inception(256, 128, 128, 192, 32, 96, 64)
 
-        # """In general, an Inception network is a network consisting of
-        # modules of the above type stacked upon each other, with occasional
-        # max-pooling layers with stride 2 to halve the resolution of the
-        # grid"""
         self.maxpool = nn.MaxPool2d(3, stride=2, padding=1)
 
         self.a4 = Inception(480, 192, 96, 208, 16, 48, 64)
@@ -203,10 +197,6 @@ class GoogleNet(nn.Module):
         output = self.a5(output)
         output = self.b5(output)
 
-        # """It was found that a move from fully connected layers to
-        # average pooling improved the top-1 accuracy by about 0.6%,
-        # however the use of dropout remained essential even after
-        # removing the fully connected layers."""
         output = self.avgpool(output)
         output = self.dropout(output)
         output = output.view(output.size()[0], -1)
