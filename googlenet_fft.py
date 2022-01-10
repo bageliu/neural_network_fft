@@ -241,6 +241,7 @@ def test(model, device, test_loader):
           counts += 1
           i += 10
           print("test case: ", counts)
+          #change the number of the testcase
           if counts == 1:
             break
           
